@@ -1,5 +1,0 @@
-[tool.pytest.ini_options]
-pythonpath = ["."]
-markers = [
-    "integration: exercises real embedding/LLM models (slow, needs downloads)",
-]
