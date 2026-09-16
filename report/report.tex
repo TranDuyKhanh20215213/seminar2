@@ -1,0 +1,66 @@
+% report/report.tex
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=2.5cm]{geometry}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{booktabs}
+
+\title{Adversarial Attacks on RAG-based Recommender Systems: \\ Potential Risks and Countermeasures}
+\author{AI4SE Project 12}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section{Introduction}
+Motivation for studying data-poisoning attacks against retrieval-augmented
+recommender systems, and why countermeasures matter.
+
+\section{Related Work}
+Summary of the Poison-RAG paper and how this project's attack design follows it.
+
+\section{System Architecture}
+Description of the repository pattern (in-memory vs. file persistence),
+the retriever, the generator, and how they compose into the RAG pipeline.
+Reference the module diagram: \texttt{src/models.py}, \texttt{src/repository/},
+\texttt{src/embeddings.py}, \texttt{src/retriever.py}, \texttt{src/generator.py},
+\texttt{src/rag\_pipeline.py}.
+
+\section{Attack Design}
+Description of \texttt{PoisonRAGAttacker}: how adversarial items are crafted
+and injected, and what makes them effective against the retriever.
+
+\section{Defenses}
+Description of \texttt{OutlierFilterDefense}, \texttt{MajorityAgreementDefense},
+and \texttt{PromptGuardGenerator} (ICL / Chain-of-Thought prompting), and the
+\texttt{MetadataTrustDefense} oracle used as an upper bound.
+
+\section{Experimental Setup}
+Models compared: Llama, gpt-oss-20B, Qwen, Mistral. Metrics: attack success
+rate, hit rate@k, NDCG@k. Table of configurations run.
+
+\section{Results}
+\begin{table}[h]
+\centering
+\begin{tabular}{lcc}
+\toprule
+Configuration & Attack Success Rate & Notes \\
+\midrule
+Baseline (no attack) & & \\
+Attacked, no defense & & \\
+Attacked + outlier filter & & \\
+Attacked + majority agreement & & \\
+Attacked + prompt guard (CoT) & & \\
+\bottomrule
+\end{tabular}
+\caption{Attack success rate across configurations and models.}
+\end{table}
+
+\section{Discussion}
+Which defenses were most effective, trade-offs (utility loss vs. protection),
+and differences observed across the four models.
+
+\section{Conclusion}
+Summary of findings and directions for future work.
+
+\end{document}
