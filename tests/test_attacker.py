@@ -1,6 +1,6 @@
 from src.attacker import PoisonRAGAttacker
 from src.embeddings import FakeEmbeddingModel
-from src.models import Item
+from src.models import Item, item_text
 from src.repository.memory_repository import InMemoryItemRepository
 
 
@@ -32,6 +32,26 @@ def test_craft_adversarial_item_increases_similarity_to_seed_queries():
         iterations=20,
     )
     assert item.metadata["attack_score"] >= baseline_score
+
+
+def test_craft_adversarial_item_optimizes_the_actual_indexed_representation():
+    attacker = PoisonRAGAttacker(FakeEmbeddingModel(dim=8))
+    seed_queries = ["quiet mechanical keyboard", "ergonomic keyboard for office"]
+    target_vector = FakeEmbeddingModel(dim=8).encode(seed_queries).mean(axis=0)
+
+    item = attacker.craft_adversarial_item(
+        target_item_id="i1",
+        promotional_text="Buy the best deal now",
+        seed_queries=seed_queries,
+        vocabulary=["keyboard", "office", "quiet", "ergonomic", "deal"],
+        iterations=20,
+    )
+
+    unoptimized_baseline = Item(item_id="poison-i1", title=item.title, description="Buy the best deal now")
+    unoptimized_score = attacker._similarity(item_text(unoptimized_baseline), target_vector)
+    optimized_score = attacker._similarity(item_text(item), target_vector)
+
+    assert optimized_score >= unoptimized_score
 
 
 def test_inject_adds_adversarial_items_to_repository():

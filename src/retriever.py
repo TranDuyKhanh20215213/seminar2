@@ -3,7 +3,7 @@ from typing import List
 import numpy as np
 
 from src.embeddings import EmbeddingModel
-from src.models import RetrievedDocument
+from src.models import RetrievedDocument, item_text
 from src.repository.base import ItemRepository
 
 
@@ -19,7 +19,7 @@ class VectorRetriever:
         items = self.repository.all()
         self._index_ids = [item.item_id for item in items]
         self._index_items = items
-        texts = [f"{item.title}. {item.description}" for item in items]
+        texts = [item_text(item) for item in items]
         self._index_vectors = self.embedding_model.encode(texts) if texts else np.zeros((0, 1))
 
     def search(self, query_text: str, top_k: int = 5) -> List[RetrievedDocument]:

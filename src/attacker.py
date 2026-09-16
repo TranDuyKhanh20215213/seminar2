@@ -3,16 +3,18 @@ from typing import List
 import numpy as np
 
 from src.embeddings import EmbeddingModel
-from src.models import Item
+from src.models import Item, item_text
 from src.repository.base import ItemRepository
 
 
 class PoisonRAGAttacker:
     """Crafts adversarial catalog items whose embedding is optimized to be
     retrieved for a target set of user queries, following the Poison-RAG
-    data-poisoning strategy: greedily append vocabulary terms that increase
-    cosine similarity to the target query centroid while keeping the
-    attacker-controlled promotional payload intact."""
+    data-poisoning strategy: greedily accept any vocabulary term, sampled in
+    random order, that increases cosine similarity of the item's INDEXED
+    representation (title + description, matching src.models.item_text) to
+    the target query centroid — while keeping the attacker-controlled
+    promotional payload intact."""
 
     def __init__(self, embedding_model: EmbeddingModel):
         self.embedding_model = embedding_model
@@ -26,21 +28,22 @@ class PoisonRAGAttacker:
         iterations: int = 20,
     ) -> Item:
         target_vector = self.embedding_model.encode(seed_queries).mean(axis=0)
+        title = f"Sponsored: {target_item_id}"
 
         best_text = promotional_text
-        best_score = self._similarity(best_text, target_vector)
+        best_score = self._indexed_similarity(title, best_text, target_vector)
 
         rng = np.random.RandomState(0)
         for _ in range(iterations):
             candidate_word = vocabulary[rng.randint(len(vocabulary))]
             candidate_text = f"{best_text} {candidate_word}"
-            candidate_score = self._similarity(candidate_text, target_vector)
+            candidate_score = self._indexed_similarity(title, candidate_text, target_vector)
             if candidate_score > best_score:
                 best_text, best_score = candidate_text, candidate_score
 
         return Item(
             item_id=f"poison-{target_item_id}",
-            title=f"Sponsored: {target_item_id}",
+            title=title,
             description=best_text,
             metadata={
                 "is_adversarial": True,
@@ -48,6 +51,10 @@ class PoisonRAGAttacker:
                 "attack_score": best_score,
             },
         )
+
+    def _indexed_similarity(self, title: str, description: str, target_vector: np.ndarray) -> float:
+        scratch_item = Item(item_id="_scratch", title=title, description=description)
+        return self._similarity(item_text(scratch_item), target_vector)
 
     def _similarity(self, text: str, target_vector: np.ndarray) -> float:
         vector = self.embedding_model.encode([text])[0]

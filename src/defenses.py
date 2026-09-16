@@ -4,7 +4,7 @@ from typing import List
 import numpy as np
 
 from src.embeddings import EmbeddingModel
-from src.models import Query, RetrievedDocument
+from src.models import Query, RetrievedDocument, item_text
 
 
 class Defense(ABC):
@@ -47,7 +47,10 @@ class MajorityAgreementDefense(Defense):
     """Keeps a retrieved document only if enough other retrieved documents
     are semantically similar to it — an adversarial document crafted to
     match the query embedding but unrelated in content to genuine catalog
-    items tends to be an outlier in this cross-document similarity graph."""
+    items tends to be an outlier in this cross-document similarity graph.
+    If nothing clears the neighbor threshold, this defense fails open and
+    returns the unfiltered list rather than an empty one — it declines to
+    act under uncertainty instead of blocking everything."""
 
     def __init__(self, embedding_model: EmbeddingModel, min_neighbors: int = 2, similarity_threshold: float = 0.5):
         self.embedding_model = embedding_model
@@ -57,7 +60,7 @@ class MajorityAgreementDefense(Defense):
     def filter(self, query: Query, retrieved: List[RetrievedDocument]) -> List[RetrievedDocument]:
         if len(retrieved) <= self.min_neighbors:
             return retrieved
-        texts = [f"{doc.item.title}. {doc.item.description}" for doc in retrieved]
+        texts = [item_text(doc.item) for doc in retrieved]
         vectors = self.embedding_model.encode(texts)
         normalized = vectors / (np.linalg.norm(vectors, axis=1, keepdims=True) + 1e-10)
         similarity_matrix = normalized @ normalized.T

@@ -28,3 +28,7 @@ class Recommendation:
     query: Query
     ranked_items: List[Item]
     explanation: str
+
+
+def item_text(item: Item) -> str:
+    return f"{item.title}. {item.description}"
