@@ -1,6 +1,7 @@
 import numpy as np
+import pytest
 
-from src.embeddings import FakeEmbeddingModel
+from src.embeddings import FakeEmbeddingModel, SentenceTransformerEmbedding
 
 
 def test_fake_embedding_returns_one_vector_per_text():
@@ -21,3 +22,11 @@ def test_fake_embedding_differs_for_different_text():
     a = model.encode(["cats"])[0]
     b = model.encode(["airplanes"])[0]
     assert not np.allclose(a, b)
+
+
+@pytest.mark.integration
+def test_sentence_transformer_embedding_returns_correct_shape():
+    model = SentenceTransformerEmbedding()
+    vectors = model.encode(["a quiet mechanical keyboard", "a wireless mouse"])
+    assert vectors.shape[0] == 2
+    assert vectors.shape[1] > 0

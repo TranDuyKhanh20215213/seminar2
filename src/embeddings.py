@@ -23,3 +23,13 @@ class FakeEmbeddingModel(EmbeddingModel):
             rng = np.random.RandomState(seed)
             vectors.append(rng.rand(self.dim))
         return np.vstack(vectors) if vectors else np.zeros((0, self.dim))
+
+
+class SentenceTransformerEmbedding(EmbeddingModel):
+    def __init__(self, model_name: str = "all-MiniLM-L6-v2"):
+        from sentence_transformers import SentenceTransformer
+
+        self._model = SentenceTransformer(model_name)
+
+    def encode(self, texts: List[str]) -> np.ndarray:
+        return self._model.encode(texts, convert_to_numpy=True)
