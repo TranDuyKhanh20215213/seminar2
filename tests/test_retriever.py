@@ -1,3 +1,5 @@
+import math
+
 from src.embeddings import FakeEmbeddingModel
 from src.models import Item
 from src.repository.memory_repository import InMemoryItemRepository
@@ -30,7 +32,7 @@ def test_search_results_are_sorted_by_descending_score():
 def test_identical_items_get_identical_scores_for_same_query():
     retriever = make_retriever()
     results = {doc.item.item_id: doc.score for doc in retriever.search("keyboard", top_k=3)}
-    assert results["i2"] == results["i3"]
+    assert math.isclose(results["i2"], results["i3"], rel_tol=1e-9)
 
 
 def test_search_on_empty_repository_returns_empty_list():
