@@ -1,4 +1,5 @@
-from src.defenses import OutlierFilterDefense, MetadataTrustDefense
+from src.defenses import OutlierFilterDefense, MetadataTrustDefense, MajorityAgreementDefense
+from src.embeddings import FakeEmbeddingModel
 from src.models import Item, Query, RetrievedDocument
 
 
@@ -31,3 +32,16 @@ def test_metadata_trust_defense_removes_flagged_items():
     defense = MetadataTrustDefense()
     filtered_ids = {doc.item.item_id for doc in defense.filter(make_query(), docs)}
     assert filtered_ids == {"i1"}
+
+
+def test_majority_agreement_defense_drops_isolated_outlier_text():
+    docs = [
+        RetrievedDocument(item=Item(item_id="i1", title="Mechanical Keyboard", description="Quiet mechanical keyboard"), score=0.9),
+        RetrievedDocument(item=Item(item_id="i2", title="Mechanical Keyboard", description="Quiet mechanical keyboard"), score=0.89),
+        RetrievedDocument(item=Item(item_id="i3", title="Mechanical Keyboard", description="Quiet mechanical keyboard"), score=0.88),
+        RetrievedDocument(item=Item(item_id="poison", title="Totally unrelated payload", description="Buy now discount offer"), score=0.95),
+    ]
+    defense = MajorityAgreementDefense(FakeEmbeddingModel(dim=8), min_neighbors=2, similarity_threshold=0.9)
+    kept_ids = {doc.item.item_id for doc in defense.filter(make_query(), docs)}
+    assert "poison" not in kept_ids
+    assert {"i1", "i2", "i3"}.issubset(kept_ids)

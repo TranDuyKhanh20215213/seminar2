@@ -3,6 +3,7 @@ from typing import List
 
 import numpy as np
 
+from src.embeddings import EmbeddingModel
 from src.models import Query, RetrievedDocument
 
 
@@ -40,3 +41,30 @@ class MetadataTrustDefense(Defense):
 
     def filter(self, query: Query, retrieved: List[RetrievedDocument]) -> List[RetrievedDocument]:
         return [doc for doc in retrieved if not doc.item.metadata.get(self.flag_key, False)]
+
+
+class MajorityAgreementDefense(Defense):
+    """Keeps a retrieved document only if enough other retrieved documents
+    are semantically similar to it — an adversarial document crafted to
+    match the query embedding but unrelated in content to genuine catalog
+    items tends to be an outlier in this cross-document similarity graph."""
+
+    def __init__(self, embedding_model: EmbeddingModel, min_neighbors: int = 2, similarity_threshold: float = 0.5):
+        self.embedding_model = embedding_model
+        self.min_neighbors = min_neighbors
+        self.similarity_threshold = similarity_threshold
+
+    def filter(self, query: Query, retrieved: List[RetrievedDocument]) -> List[RetrievedDocument]:
+        if len(retrieved) <= self.min_neighbors:
+            return retrieved
+        texts = [f"{doc.item.title}. {doc.item.description}" for doc in retrieved]
+        vectors = self.embedding_model.encode(texts)
+        normalized = vectors / (np.linalg.norm(vectors, axis=1, keepdims=True) + 1e-10)
+        similarity_matrix = normalized @ normalized.T
+
+        kept = []
+        for i, doc in enumerate(retrieved):
+            neighbor_count = np.sum(similarity_matrix[i] >= self.similarity_threshold) - 1
+            if neighbor_count >= self.min_neighbors:
+                kept.append(doc)
+        return kept if kept else retrieved
