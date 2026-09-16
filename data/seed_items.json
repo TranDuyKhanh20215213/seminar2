@@ -1,32 +1,182 @@
-[
-  {"item_id": "i1", "title": "Wireless Ergonomic Mouse", "description": "A wireless mouse with an ergonomic vertical grip, ideal for reducing wrist strain during long office sessions."},
-  {"item_id": "i2", "title": "Quiet Mechanical Keyboard", "description": "A mechanical keyboard with silent switches, tuned for quiet open-plan offices."},
-  {"item_id": "i3", "title": "Compact Mechanical Keyboard", "description": "A tenkeyless mechanical keyboard with silent switches, designed to save desk space in quiet offices."},
-  {"item_id": "i4", "title": "Full-Size Mechanical Keyboard with Numpad", "description": "A full-size mechanical keyboard with a numeric keypad and quiet tactile switches for office typing."},
-  {"item_id": "i5", "title": "Low-Profile Wireless Keyboard", "description": "A slim wireless keyboard with quiet low-profile keys, suited for a clean, quiet office desk setup."},
-  {"item_id": "i6", "title": "Vertical Ergonomic Mouse", "description": "A vertical mouse designed to keep the wrist in a natural handshake position during office work."},
-  {"item_id": "i7", "title": "Wireless Gaming Mouse", "description": "A high-precision wireless mouse with programmable buttons, built for fast-paced gaming sessions."},
-  {"item_id": "i8", "title": "Silent Click Wireless Mouse", "description": "A wireless mouse with silent click switches, reducing noise in shared office environments."},
-  {"item_id": "i9", "title": "27-inch 4K Monitor", "description": "A 27-inch 4K UHD monitor with accurate color reproduction, suited for design and office work."},
-  {"item_id": "i10", "title": "24-inch Full HD Monitor", "description": "A budget-friendly 24-inch Full HD monitor for everyday office and productivity tasks."},
-  {"item_id": "i11", "title": "Ultrawide Curved Monitor", "description": "A 34-inch ultrawide curved monitor that improves multitasking across several application windows."},
-  {"item_id": "i12", "title": "Adjustable Laptop Stand", "description": "An aluminum laptop stand that raises the screen to eye level to improve posture."},
-  {"item_id": "i13", "title": "Portable Foldable Laptop Stand", "description": "A lightweight foldable laptop stand designed for travel and temporary desk setups."},
-  {"item_id": "i14", "title": "Aluminum Laptop Riser", "description": "A sturdy aluminum laptop riser that improves airflow and viewing angle for office laptops."},
-  {"item_id": "i15", "title": "Noise-Cancelling Over-Ear Headphones", "description": "Over-ear headphones with active noise cancellation, suited for focus work in open offices."},
-  {"item_id": "i16", "title": "Wireless Earbuds with Charging Case", "description": "Compact wireless earbuds with a portable charging case, good for calls and music on the go."},
-  {"item_id": "i17", "title": "Open-Back Studio Headphones", "description": "Open-back headphones with a wide soundstage, favored for critical listening and audio editing."},
-  {"item_id": "i18", "title": "Bluetooth On-Ear Headphones", "description": "Lightweight on-ear Bluetooth headphones with long battery life for daily commuting."},
-  {"item_id": "i19", "title": "1080p Webcam with Autofocus", "description": "A 1080p USB webcam with autofocus, well suited for video calls and online meetings."},
-  {"item_id": "i20", "title": "4K Webcam with Ring Light", "description": "A 4K webcam with an integrated ring light, designed for streaming and video presentations."},
-  {"item_id": "i21", "title": "Budget USB Webcam", "description": "An affordable USB webcam offering clear video for everyday video conferencing needs."},
-  {"item_id": "i22", "title": "USB-C Docking Station with Dual HDMI", "description": "A docking station with dual HDMI, Ethernet, and USB-C passthrough charging for laptops."},
-  {"item_id": "i23", "title": "Thunderbolt Docking Station", "description": "A Thunderbolt docking station supporting dual 4K displays and fast peripheral connections."},
-  {"item_id": "i24", "title": "Compact USB Hub Docking Station", "description": "A compact USB-C hub with HDMI and card reader, ideal for minimalist laptop setups."},
-  {"item_id": "i25", "title": "LED Desk Lamp with Adjustable Brightness", "description": "A dimmable LED desk lamp with multiple brightness levels for comfortable office lighting."},
-  {"item_id": "i26", "title": "Clip-On Monitor Light Bar", "description": "A monitor-mounted light bar that reduces screen glare while illuminating the desk surface."},
-  {"item_id": "i27", "title": "Smart Desk Lamp with App Control", "description": "A smart desk lamp controllable via a mobile app, offering scheduling and color temperature presets."},
-  {"item_id": "i28", "title": "Ergonomic Mesh Office Chair", "description": "A breathable mesh office chair with adjustable lumbar support for long working hours."},
-  {"item_id": "i29", "title": "Executive Leather Office Chair", "description": "A padded leather office chair with a reclining backrest, designed for executive offices."},
-  {"item_id": "i30", "title": "Adjustable Standing Desk Converter", "description": "A desktop riser that converts a regular desk into a standing desk with adjustable height."}
-]
+{
+  "i1": {
+    "item_id": "i1",
+    "title": "Wireless Ergonomic Mouse",
+    "description": "A wireless mouse with an ergonomic vertical grip, ideal for reducing wrist strain during long office sessions.",
+    "metadata": {}
+  },
+  "i2": {
+    "item_id": "i2",
+    "title": "Quiet Mechanical Keyboard",
+    "description": "A mechanical keyboard with silent switches, tuned for quiet open-plan offices.",
+    "metadata": {}
+  },
+  "i3": {
+    "item_id": "i3",
+    "title": "Compact Mechanical Keyboard",
+    "description": "A tenkeyless mechanical keyboard with silent switches, designed to save desk space in quiet offices.",
+    "metadata": {}
+  },
+  "i4": {
+    "item_id": "i4",
+    "title": "Full-Size Mechanical Keyboard with Numpad",
+    "description": "A full-size mechanical keyboard with a numeric keypad and quiet tactile switches for office typing.",
+    "metadata": {}
+  },
+  "i5": {
+    "item_id": "i5",
+    "title": "Low-Profile Wireless Keyboard",
+    "description": "A slim wireless keyboard with quiet low-profile keys, suited for a clean, quiet office desk setup.",
+    "metadata": {}
+  },
+  "i6": {
+    "item_id": "i6",
+    "title": "Vertical Ergonomic Mouse",
+    "description": "A vertical mouse designed to keep the wrist in a natural handshake position during office work.",
+    "metadata": {}
+  },
+  "i7": {
+    "item_id": "i7",
+    "title": "Wireless Gaming Mouse",
+    "description": "A high-precision wireless mouse with programmable buttons, built for fast-paced gaming sessions.",
+    "metadata": {}
+  },
+  "i8": {
+    "item_id": "i8",
+    "title": "Silent Click Wireless Mouse",
+    "description": "A wireless mouse with silent click switches, reducing noise in shared office environments.",
+    "metadata": {}
+  },
+  "i9": {
+    "item_id": "i9",
+    "title": "27-inch 4K Monitor",
+    "description": "A 27-inch 4K UHD monitor with accurate color reproduction, suited for design and office work.",
+    "metadata": {}
+  },
+  "i10": {
+    "item_id": "i10",
+    "title": "24-inch Full HD Monitor",
+    "description": "A budget-friendly 24-inch Full HD monitor for everyday office and productivity tasks.",
+    "metadata": {}
+  },
+  "i11": {
+    "item_id": "i11",
+    "title": "Ultrawide Curved Monitor",
+    "description": "A 34-inch ultrawide curved monitor that improves multitasking across several application windows.",
+    "metadata": {}
+  },
+  "i12": {
+    "item_id": "i12",
+    "title": "Adjustable Laptop Stand",
+    "description": "An aluminum laptop stand that raises the screen to eye level to improve posture.",
+    "metadata": {}
+  },
+  "i13": {
+    "item_id": "i13",
+    "title": "Portable Foldable Laptop Stand",
+    "description": "A lightweight foldable laptop stand designed for travel and temporary desk setups.",
+    "metadata": {}
+  },
+  "i14": {
+    "item_id": "i14",
+    "title": "Aluminum Laptop Riser",
+    "description": "A sturdy aluminum laptop riser that improves airflow and viewing angle for office laptops.",
+    "metadata": {}
+  },
+  "i15": {
+    "item_id": "i15",
+    "title": "Noise-Cancelling Over-Ear Headphones",
+    "description": "Over-ear headphones with active noise cancellation, suited for focus work in open offices.",
+    "metadata": {}
+  },
+  "i16": {
+    "item_id": "i16",
+    "title": "Wireless Earbuds with Charging Case",
+    "description": "Compact wireless earbuds with a portable charging case, good for calls and music on the go.",
+    "metadata": {}
+  },
+  "i17": {
+    "item_id": "i17",
+    "title": "Open-Back Studio Headphones",
+    "description": "Open-back headphones with a wide soundstage, favored for critical listening and audio editing.",
+    "metadata": {}
+  },
+  "i18": {
+    "item_id": "i18",
+    "title": "Bluetooth On-Ear Headphones",
+    "description": "Lightweight on-ear Bluetooth headphones with long battery life for daily commuting.",
+    "metadata": {}
+  },
+  "i19": {
+    "item_id": "i19",
+    "title": "1080p Webcam with Autofocus",
+    "description": "A 1080p USB webcam with autofocus, well suited for video calls and online meetings.",
+    "metadata": {}
+  },
+  "i20": {
+    "item_id": "i20",
+    "title": "4K Webcam with Ring Light",
+    "description": "A 4K webcam with an integrated ring light, designed for streaming and video presentations.",
+    "metadata": {}
+  },
+  "i21": {
+    "item_id": "i21",
+    "title": "Budget USB Webcam",
+    "description": "An affordable USB webcam offering clear video for everyday video conferencing needs.",
+    "metadata": {}
+  },
+  "i22": {
+    "item_id": "i22",
+    "title": "USB-C Docking Station with Dual HDMI",
+    "description": "A docking station with dual HDMI, Ethernet, and USB-C passthrough charging for laptops.",
+    "metadata": {}
+  },
+  "i23": {
+    "item_id": "i23",
+    "title": "Thunderbolt Docking Station",
+    "description": "A Thunderbolt docking station supporting dual 4K displays and fast peripheral connections.",
+    "metadata": {}
+  },
+  "i24": {
+    "item_id": "i24",
+    "title": "Compact USB Hub Docking Station",
+    "description": "A compact USB-C hub with HDMI and card reader, ideal for minimalist laptop setups.",
+    "metadata": {}
+  },
+  "i25": {
+    "item_id": "i25",
+    "title": "LED Desk Lamp with Adjustable Brightness",
+    "description": "A dimmable LED desk lamp with multiple brightness levels for comfortable office lighting.",
+    "metadata": {}
+  },
+  "i26": {
+    "item_id": "i26",
+    "title": "Clip-On Monitor Light Bar",
+    "description": "A monitor-mounted light bar that reduces screen glare while illuminating the desk surface.",
+    "metadata": {}
+  },
+  "i27": {
+    "item_id": "i27",
+    "title": "Smart Desk Lamp with App Control",
+    "description": "A smart desk lamp controllable via a mobile app, offering scheduling and color temperature presets.",
+    "metadata": {}
+  },
+  "i28": {
+    "item_id": "i28",
+    "title": "Ergonomic Mesh Office Chair",
+    "description": "A breathable mesh office chair with adjustable lumbar support for long working hours.",
+    "metadata": {}
+  },
+  "i29": {
+    "item_id": "i29",
+    "title": "Executive Leather Office Chair",
+    "description": "A padded leather office chair with a reclining backrest, designed for executive offices.",
+    "metadata": {}
+  },
+  "i30": {
+    "item_id": "i30",
+    "title": "Adjustable Standing Desk Converter",
+    "description": "A desktop riser that converts a regular desk into a standing desk with adjustable height.",
+    "metadata": {}
+  }
+}
