@@ -5,6 +5,7 @@ from src.models import Recommendation
 
 
 def attack_success_rate(recommendations: List[Recommendation], target_item_id: str) -> float:
+    """Fraction of recommendations that surface the target item anywhere in the ranked list."""
     if not recommendations:
         return 0.0
     hits = sum(
@@ -15,6 +16,7 @@ def attack_success_rate(recommendations: List[Recommendation], target_item_id: s
 
 
 def hit_rate_at_k(recommendations: List[Recommendation], relevant_item_ids: Dict[str, Set[str]], k: int) -> float:
+    """Fraction of recommendations whose top-k contains at least one relevant item."""
     if not recommendations:
         return 0.0
     hits = 0
@@ -27,6 +29,7 @@ def hit_rate_at_k(recommendations: List[Recommendation], relevant_item_ids: Dict
 
 
 def ndcg_at_k(recommendations: List[Recommendation], relevant_item_ids: Dict[str, Set[str]], k: int) -> float:
+    """Mean normalized discounted cumulative gain at k, using binary relevance."""
     if not recommendations:
         return 0.0
     total = 0.0

@@ -1,3 +1,5 @@
+import json
+
 from src.attacker import PoisonRAGAttacker
 from src.defenses import MetadataTrustDefense
 from src.embeddings import FakeEmbeddingModel
@@ -57,9 +59,6 @@ def test_run_with_attack_and_metadata_trust_defense_blocks_attack():
     result = runner.run(config, queries, target_item_id=adversarial_item.item_id, adversarial_item=adversarial_item)
 
     assert result["attack_success_rate"] == 0.0
-
-
-import json
 
 
 def test_save_results_writes_valid_json(tmp_path):

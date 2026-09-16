@@ -16,6 +16,7 @@ from src.retriever import VectorRetriever
 
 @dataclass
 class ExperimentConfig:
+    """One named combination of generator, attack toggle, and defenses to evaluate."""
     name: str
     generator: Generator
     use_attack: bool
@@ -29,6 +30,7 @@ class ExperimentRunner:
         self.attacker = attacker
 
     def run(self, config: ExperimentConfig, queries: List[Query], target_item_id: str, adversarial_item: Item) -> dict:
+        """Runs one experiment configuration against a fresh in-memory copy of the base catalog — the on-disk seed data is never mutated by injecting the adversarial item, and repeated calls with different configs never see each other's injected items."""
         repository = InMemoryItemRepository()
         for item in self.base_repository.all():
             repository.add(item)
@@ -40,12 +42,14 @@ class ExperimentRunner:
         pipeline = RAGRecommender(retriever, config.generator, defenses=config.defenses)
 
         recommendations = [pipeline.recommend(query) for query in queries]
+        sample_explanation = recommendations[0].explanation[:200] if recommendations else ""
         return {
             "config": config.name,
             "attack_success_rate": attack_success_rate(recommendations, target_item_id),
             "num_queries": len(queries),
+            "sample_explanation": sample_explanation,
         }
 
     def save_results(self, results: List[dict], file_path: str) -> None:
-        with open(file_path, "w") as f:
+        with open(file_path, "w", encoding="utf-8") as f:
             json.dump(results, f, indent=2)
