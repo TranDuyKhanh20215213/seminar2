@@ -1,3 +1,4 @@
+import json
 from dataclasses import dataclass
 from typing import List
 
@@ -44,3 +45,7 @@ class ExperimentRunner:
             "attack_success_rate": attack_success_rate(recommendations, target_item_id),
             "num_queries": len(queries),
         }
+
+    def save_results(self, results: List[dict], file_path: str) -> None:
+        with open(file_path, "w") as f:
+            json.dump(results, f, indent=2)

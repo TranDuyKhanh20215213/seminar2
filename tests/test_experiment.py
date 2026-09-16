@@ -57,3 +57,16 @@ def test_run_with_attack_and_metadata_trust_defense_blocks_attack():
     result = runner.run(config, queries, target_item_id=adversarial_item.item_id, adversarial_item=adversarial_item)
 
     assert result["attack_success_rate"] == 0.0
+
+
+import json
+
+
+def test_save_results_writes_valid_json(tmp_path):
+    runner = make_runner()
+    file_path = str(tmp_path / "results.json")
+    runner.save_results([{"config": "baseline", "attack_success_rate": 0.0}], file_path)
+
+    with open(file_path) as f:
+        loaded = json.load(f)
+    assert loaded[0]["config"] == "baseline"
