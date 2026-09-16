@@ -37,3 +37,19 @@ def test_recommend_applies_defenses_before_generation():
     recommendation = pipeline.recommend(Query(query_id="q1", text="keyboard"), top_k=2)
     assert recommendation.ranked_items == []
     assert recommendation.explanation == "Recommended based on: "
+
+
+def test_recommend_backfills_from_overfetch_when_defense_removes_some_items():
+    repository = InMemoryItemRepository()
+    for i in range(10):
+        repository.add(Item(item_id=f"i{i}", title=f"Mechanical Keyboard {i}", description="Quiet mechanical keyboard"))
+    retriever = VectorRetriever(repository, FakeEmbeddingModel(dim=8))
+    retriever.build_index()
+
+    class DropFirstDefense:
+        def filter(self, query, retrieved):
+            return retrieved[2:]
+
+    pipeline = RAGRecommender(retriever, FakeGenerator(), defenses=[DropFirstDefense()])
+    recommendation = pipeline.recommend(Query(query_id="q1", text="keyboard"), top_k=5)
+    assert len(recommendation.ranked_items) == 5

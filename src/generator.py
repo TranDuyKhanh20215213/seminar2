@@ -24,10 +24,11 @@ class FakeGenerator(Generator):
 
 
 class HFGenerator(Generator):
-    def __init__(self, model_name: str):
+    def __init__(self, model_name: str, max_new_tokens: int = 150, **pipeline_kwargs):
         from transformers import pipeline
 
-        self._pipe = pipeline("text-generation", model=model_name)
+        self._pipe = pipeline("text-generation", model=model_name, **pipeline_kwargs)
+        self.max_new_tokens = max_new_tokens
 
     def generate(self, query_text: str, context_docs: List[RetrievedDocument]) -> str:
         context_text = "\n".join(f"- {doc.item.title}: {doc.item.description}" for doc in context_docs)
@@ -37,8 +38,8 @@ class HFGenerator(Generator):
             "and briefly justify your choice.\n\n"
             f"User request: {query_text}\n\nCandidate items:\n{context_text}\n\nRecommendation:"
         )
-        output = self._pipe(prompt, max_new_tokens=150, do_sample=False)
-        return output[0]["generated_text"][len(prompt):].strip()
+        output = self._pipe(prompt, max_new_tokens=self.max_new_tokens, do_sample=False, return_full_text=False)
+        return output[0]["generated_text"].strip()
 
 
 class PromptGuardGenerator(Generator):

@@ -10,16 +10,19 @@ from src.repository.base import ItemRepository
 class FileItemRepository(ItemRepository):
     def __init__(self, file_path: str):
         self.file_path = file_path
+        parent = os.path.dirname(file_path)
+        if parent:
+            os.makedirs(parent, exist_ok=True)
         if not os.path.exists(file_path):
-            with open(file_path, "w") as f:
+            with open(file_path, "w", encoding="utf-8") as f:
                 json.dump({}, f)
 
     def _load(self) -> dict:
-        with open(self.file_path) as f:
+        with open(self.file_path, encoding="utf-8") as f:
             return json.load(f)
 
     def _save(self, data: dict) -> None:
-        with open(self.file_path, "w") as f:
+        with open(self.file_path, "w", encoding="utf-8") as f:
             json.dump(data, f, indent=2)
 
     def add(self, item: Item) -> None:

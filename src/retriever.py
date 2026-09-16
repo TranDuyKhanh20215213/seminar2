@@ -12,11 +12,13 @@ class VectorRetriever:
         self.repository = repository
         self.embedding_model = embedding_model
         self._index_ids: List[str] = []
+        self._index_items: List = []
         self._index_vectors = np.zeros((0, 1))
 
     def build_index(self) -> None:
         items = self.repository.all()
         self._index_ids = [item.item_id for item in items]
+        self._index_items = items
         texts = [f"{item.title}. {item.description}" for item in items]
         self._index_vectors = self.embedding_model.encode(texts) if texts else np.zeros((0, 1))
 
@@ -25,9 +27,9 @@ class VectorRetriever:
             return []
         query_vector = self.embedding_model.encode([query_text])[0]
         similarities = self._cosine_similarity(self._index_vectors, query_vector)
-        ranked_indices = np.argsort(-similarities)[:top_k]
+        ranked_indices = np.argsort(-similarities, kind="stable")[:top_k]
         return [
-            RetrievedDocument(item=self.repository.get(self._index_ids[i]), score=float(similarities[i]))
+            RetrievedDocument(item=self._index_items[i], score=float(similarities[i]))
             for i in ranked_indices
         ]
 

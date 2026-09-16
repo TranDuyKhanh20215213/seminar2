@@ -1,3 +1,4 @@
+import hashlib
 from abc import ABC, abstractmethod
 from typing import List
 
@@ -19,7 +20,8 @@ class FakeEmbeddingModel(EmbeddingModel):
     def encode(self, texts: List[str]) -> np.ndarray:
         vectors = []
         for text in texts:
-            seed = abs(hash(text)) % (2**32)
+            digest = hashlib.sha256(text.encode("utf-8")).digest()
+            seed = int.from_bytes(digest[:4], "big")
             rng = np.random.RandomState(seed)
             vectors.append(rng.rand(self.dim))
         return np.vstack(vectors) if vectors else np.zeros((0, self.dim))

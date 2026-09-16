@@ -40,3 +40,16 @@ def test_search_on_empty_repository_returns_empty_list():
     retriever = VectorRetriever(repository, FakeEmbeddingModel(dim=8))
     retriever.build_index()
     assert retriever.search("anything") == []
+
+
+def test_search_survives_repository_mutation_after_build_index():
+    repository = InMemoryItemRepository()
+    repository.add(Item(item_id="i1", title="Wireless Mouse", description="Ergonomic wireless mouse"))
+    repository.add(Item(item_id="i2", title="Mechanical Keyboard", description="Quiet mechanical keyboard"))
+    retriever = VectorRetriever(repository, FakeEmbeddingModel(dim=8))
+    retriever.build_index()
+
+    repository.remove("i1")
+
+    results = retriever.search("keyboard", top_k=2)
+    assert all(doc.item is not None for doc in results)

@@ -45,3 +45,10 @@ def test_file_repository_persists_across_new_instances(tmp_path):
 
     second = FileItemRepository(file_path)
     assert second.get("i1").title == "Mouse"
+
+
+def test_file_repository_creates_parent_directory(tmp_path):
+    file_path = str(tmp_path / "nested" / "dir" / "items.json")
+    repository = FileItemRepository(file_path)
+    repository.add(Item(item_id="i1", title="Mouse", description="d1"))
+    assert repository.get("i1").title == "Mouse"
